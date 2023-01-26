@@ -17,16 +17,16 @@ const continueInterruptReasons = new Set([
     "CRASH",
 ]);
 
-const retryDownloads: boolean = true;
+const retryDownloads = true;
 
-const delay: number = 5000;
+const delay = 5000;
 
 browser.downloads.onChanged.addListener(async (delta) => {
     if (delta.state?.current !== "interrupted") {
         return;
     }
 
-    const download = (await browser.downloads.search({ id: delta.id }))[0];
+    const [download] = await browser.downloads.search({ id: delta.id });
 
     console.log(
         `Download ${download.id} (${download.filename}) interrupted. Reason: ${download.error}`
